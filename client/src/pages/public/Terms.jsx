@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 
 const SECTIONS = [
   {

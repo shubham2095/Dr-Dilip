@@ -5,7 +5,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 
 const WELL_BABY_TOPICS = [
   "Growth and development", "Family dynamics", "Healthy eating practices",

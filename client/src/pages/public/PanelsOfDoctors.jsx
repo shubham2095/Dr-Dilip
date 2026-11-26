@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 import about from "@/assets/about.webp";
 
 const MEDICAL_DIRECTOR = {

@@ -23,8 +23,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Reveal from "@/components/Reveal";
-import AnimatedCounter from "@/components/AnimatedCounter";
+import Reveal from "@/components/common/Reveal";
+import AnimatedCounter from "@/components/common/AnimatedCounter";
 import about from "@/assets/about.webp";
 import service1 from "@/assets/service-1.webp";
 import service2 from "@/assets/service-2.webp";

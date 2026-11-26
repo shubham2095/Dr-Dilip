@@ -1,32 +1,5 @@
-import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { Phone, X, MessageSquare } from "lucide-react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-
-function ScrollProgressBar() {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <div className="fixed left-0 top-0 z-[60] h-1 w-full bg-transparent">
-      <div
-        className="h-full bg-gradient-to-r from-primary/70 via-primary to-primary/70 shadow-[0_0_8px_rgba(0,0,0,0.15)] transition-[width] duration-150 ease-out"
-        style={{ width: `${progress}%` }}
-      />
-    </div>
-  );
-}
 
 function WhatsAppIcon(props) {
   return (
@@ -36,7 +9,7 @@ function WhatsAppIcon(props) {
   );
 }
 
-function FloatingContactButton() {
+export default function FloatingContact() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -126,25 +99,5 @@ function FloatingContactButton() {
         </button>
       </div>
     </>
-  );
-}
-
-export default function Layout() {
-  const location = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" in window ? "instant" : "auto" });
-  }, [location.pathname]);
-
-  return (
-    <div>
-      <ScrollProgressBar />
-      <Navbar />
-      <main key={location.pathname} className="flex-1 animate-in fade-in duration-300">
-        <Outlet />
-      </main>
-      <Footer />
-      <FloatingContactButton />
-    </div>
   );
 }

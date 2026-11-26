@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 import service1 from "@/assets/service-1.webp";
 import service2 from "@/assets/service-2.webp";
 import service3 from "@/assets/service-3.webp";

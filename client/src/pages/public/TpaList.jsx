@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 
 const INSURANCE_COMPANIES = [
   "The New India Insurance Co. Ltd",

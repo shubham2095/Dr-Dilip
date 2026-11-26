@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { sendContactForm } from "@/lib/api";
-import Reveal from "@/components/Reveal";
+import { sendContactMessage } from "@/services/contactService";
+import Reveal from "@/components/common/Reveal";
 
 const initialForm = { name: "", email: "", phone: "", message: "", website: "" };
 
@@ -49,7 +49,7 @@ export default function Contact() {
     setStatusMessage("");
 
     try {
-      const res = await sendContactForm(form);
+      const res = await sendContactMessage(form);
       setStatus("success");
       setStatusMessage(res.message || "Your message has been sent successfully!");
       setForm(initialForm);

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { HeartHandshake, Users, Clock, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 import about from "@/assets/about.webp";
 
 const HIGHLIGHTS = [

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Armchair, BedDouble, Stethoscope, Ambulance, Zap, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/common/Reveal";
 import facility1 from "@/assets/facility-1.webp";
 import facility2 from "@/assets/facility-2.webp";
 import facility3 from "@/assets/facility-3.webp";
