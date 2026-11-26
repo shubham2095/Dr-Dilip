@@ -19,7 +19,6 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
-  SheetClose,
 } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -64,6 +63,15 @@ export default function Navbar() {
   const linkClass = ({ isActive }) =>
     `group relative py-1.5 text-sm font-medium transition-colors ${
       isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+    }`;
+
+  const closeMenu = () => setOpen(false);
+
+  const mobileLinkClass = ({ isActive }) =>
+    `flex items-center gap-2.5 rounded-md px-3 py-3 text-sm font-medium transition-colors ${
+      isActive
+        ? "bg-primary/10 text-primary"
+        : "text-muted-foreground hover:bg-muted hover:text-foreground"
     }`;
 
   const underline = (isActive) => (
@@ -111,18 +119,16 @@ export default function Navbar() {
 
           {/* More dropdown */}
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className={`group relative flex items-center gap-1 py-1.5 text-sm font-medium outline-none transition-colors ${
-                  isMoreActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                More
-                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                {underline(isMoreActive)}
-              </button>
+            <DropdownMenuTrigger
+              className={`group relative flex items-center gap-1 py-1.5 text-sm font-medium outline-none transition-colors ${
+                isMoreActive
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              More
+              <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-data-popup-open:rotate-180" />
+              {underline(isMoreActive)}
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="center"
@@ -133,11 +139,13 @@ export default function Navbar() {
                 link.divider ? (
                   <DropdownMenuSeparator key={`div-${i}`} />
                 ) : (
-                  <DropdownMenuItem key={link.path} asChild>
-                    <Link to={link.path} className="flex items-center gap-2.5 cursor-pointer">
-                      <link.icon className="h-4 w-4 text-primary" />
-                      {link.name}
-                    </Link>
+                  <DropdownMenuItem
+                    key={link.path}
+                    className="flex cursor-pointer items-center gap-2.5"
+                    render={<Link to={link.path} />}
+                  >
+                    <link.icon className="h-4 w-4 text-primary" />
+                    {link.name}
                   </DropdownMenuItem>
                 )
               )}
@@ -179,88 +187,64 @@ export default function Navbar() {
 
         {/* Mobile / tablet nav */}
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon" className="shrink-0">
-              <Menu className="h-6 w-6" />
-            </Button>
+          <SheetTrigger
+            aria-label="Open menu"
+            render={<Button variant="ghost" size="icon" className="shrink-0 lg:hidden" />}
+          >
+            <Menu className="h-6 w-6" />
           </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-72 overflow-y-auto sm:w-72">
-  <nav className="mt-10 flex flex-col gap-1.5">
-    <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-      Menu
-    </p>
-    {PRIMARY_LINKS.map((link) => (
-      <SheetClose asChild key={link.path}>
-        <NavLink
-          to={link.path}
-          end={link.path === "/"}
-          className={({ isActive }) =>
-            `rounded-md px-3 py-3 text-sm font-medium transition-colors ${
-              isActive
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          {link.name}
-        </NavLink>
-      </SheetClose>
-    ))}
+          <SheetContent side="right" className="w-[85vw] max-w-72 overflow-y-auto sm:w-72">
+            <nav className="mt-14 flex flex-col gap-1.5 px-3 pb-6">
+              <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Menu
+              </p>
+              {PRIMARY_LINKS.map((link) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  end={link.path === "/"}
+                  onClick={closeMenu}
+                  className={mobileLinkClass}
+                >
+                  {link.name}
+                </NavLink>
+              ))}
 
-    <div className="my-2 border-t" />
+              <div className="my-2 border-t" />
 
-    <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-      More
-    </p>
-    {MORE_LINKS.filter((l) => !l.divider).map((link) => (
-      <SheetClose asChild key={link.path}>
-        <NavLink
-          to={link.path}
-          className={({ isActive }) =>
-            `flex items-center gap-2.5 rounded-md px-3 py-3 text-sm font-medium transition-colors ${
-              isActive
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            }`
-          }
-        >
-          <link.icon className="h-4 w-4 shrink-0" />
-          {link.name}
-        </NavLink>
-      </SheetClose>
-    ))}
+              <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                More
+              </p>
+              {MORE_LINKS.filter((l) => !l.divider).map((link) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  onClick={closeMenu}
+                  className={mobileLinkClass}
+                >
+                  <link.icon className="h-4 w-4 shrink-0" />
+                  {link.name}
+                </NavLink>
+              ))}
 
-    <div className="my-2 border-t" />
+              <div className="my-2 border-t" />
 
-    <SheetClose asChild>
-      <NavLink
-        to="/contact"
-        className={({ isActive }) =>
-          `rounded-md px-3 py-3 text-sm font-medium transition-colors ${
-            isActive
-              ? "bg-primary/10 text-primary"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-          }`
-        }
-      >
-        Contact
-      </NavLink>
-    </SheetClose>
+              <NavLink to="/contact" onClick={closeMenu} className={mobileLinkClass}>
+                Contact
+              </NavLink>
 
-    <SheetClose asChild>
-      <Button asChild className="mt-4 h-12 text-base">
-        <Link to="/contact">Book Appointment</Link>
-      </Button>
-    </SheetClose>
-    <a
-      href="tel:+911294086357"
-      className="mt-3 flex items-center justify-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary"
-    >
-      <Phone className="h-4 w-4" />
-      +91-129 408 6357
-    </a>
-  </nav>
-</SheetContent>
+              <Button asChild className="mt-4 h-12 text-base">
+                <Link to="/contact" onClick={closeMenu}>Book Appointment</Link>
+              </Button>
+              <a
+                href="tel:+911294086357"
+                className="mt-3 flex items-center justify-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary"
+              >
+                <Phone className="h-4 w-4" />
+                +91-129 408 6357
+              </a>
+            </nav>
+          </SheetContent>
         </Sheet>
       </div>
     </header>

@@ -1,3 +1,4 @@
+import { cloneElement } from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva } from "class-variance-authority";
 
@@ -44,12 +45,25 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  asChild = false,
   ...props
 }) {
+  const classes = cn(buttonVariants({ variant, size, className }))
+
+  // asChild: style the child itself (usually a link) instead of wrapping it in a <button>.
+  if (asChild) {
+    const { children, ...rest } = props
+    return cloneElement(children, {
+      ...rest,
+      "data-slot": "button",
+      className: cn(classes, children.props.className),
+    });
+  }
+
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={classes}
       {...props} />
   );
 }
