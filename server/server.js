@@ -7,6 +7,7 @@ import helmet from "helmet";
 import routes from "./routes/index.js";
 import { getSitemap, getRobots } from "./controllers/seoController.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
+import { startKeepAlive } from "./services/keepAliveService.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -63,4 +64,6 @@ app.listen(PORT, () => {
   if (process.env.NODE_ENV === "production" && !process.env.SITE_URL) {
     console.warn("Warning: SITE_URL is not set, so sitemap.xml and robots.txt point to localhost.");
   }
+
+  startKeepAlive();
 });

@@ -4,7 +4,7 @@ import contactRoutes from "./contactRoutes.js";
 const router = express.Router();
 
 router.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  res.set("Cache-Control", "no-store").json({ status: "ok" });
 });
 
 router.use("/contact", contactRoutes);

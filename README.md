@@ -34,7 +34,8 @@ It is one Node.js app: an Express server that serves the API **and** the built R
 │   ├── controllers/           Request handlers (contact, seo)
 │   ├── middleware/            rateLimit, validate, errorHandler
 │   ├── schemas/               zod schemas (contactSchema.js)
-│   └── services/              mailService.js
+│   ├── services/              mailService.js, keepAliveService.js
+│   └── utils/                 siteUrl.js
 ├── .env.example               Every environment variable, with comments
 └── package.json               Backend dependencies and all scripts
 ```
@@ -97,7 +98,8 @@ To try the production setup locally: `npm run build`, then `npm start`, then ope
 | `SMTP_PASS` | yes | Password for that mailbox |
 | `CLIENT_EMAIL` | yes | Inbox that receives contact form messages |
 | `PORT` | no | Server port (default `5000`) |
-| `SITE_URL` | on the live site | Public address of the site, used in `sitemap.xml` and `robots.txt` |
+| `SITE_URL` | on the live site | Public address of the site, used in `sitemap.xml`, `robots.txt` and keep-alive |
+| `KEEP_ALIVE` | no | Set to `false` to turn keep-alive off |
 | `NODE_ENV` | no | `production` on the live site |
 
 `.env` is git-ignored. Never commit it.
@@ -115,6 +117,12 @@ If you change `PORT`, start development with a matching `API_PORT` environment v
 API errors are returned as `{ "success": false, "message": "..." }`.
 
 The contact route validates input with zod, HTML-escapes everything before it goes into the email, ignores submissions that fill the hidden honeypot field, allows 3 requests per IP per minute (then `429`), and rejects bodies over 10 KB.
+
+## Keep-alive
+
+Hostinger stops an idle Node app after 300 seconds (`lsnode: no request in 300 seconds, exit.` in the runtime logs). To prevent this, the server requests `SITE_URL/api/health` every 4 minutes. It runs only when `NODE_ENV=production` and `SITE_URL` is set.
+
+It cannot start a stopped app. After a deploy or a host restart, one visit is needed before it takes over. Check that your hosting plan allows keeping the app running this way.
 
 ## Adding a page
 

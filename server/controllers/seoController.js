@@ -1,3 +1,5 @@
+import siteUrl from "../utils/siteUrl.js";
+
 // Public pages and their search-engine priority. Keep in step with client/src/PublicSite.jsx.
 const STATIC_PAGES = [
   { path: "/", priority: "1.0" },
@@ -20,12 +22,6 @@ const escapeXml = (value) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
-
-// SITE_URL is the public address of the website. A missing https:// and trailing slashes are fixed up.
-function siteUrl() {
-  const url = (process.env.SITE_URL || "http://localhost:5000").trim().replace(/\/+$/, "");
-  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
-}
 
 export function getSitemap(req, res) {
   const base = siteUrl();
